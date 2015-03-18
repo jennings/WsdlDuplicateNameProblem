@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://services.hotschedules.com/api/services/SalesService" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" name="SalesItemServiceService" targetNamespace="http://services.hotschedules.com/api/services/SalesService" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xs:schema attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://services.hotschedules.com/api/services/SalesService" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:complexType name="wsRevenueCenter">
+        <xs:sequence>
+          <xs:element name="extId" type="xs:int" />
+          <xs:element name="groupLevel" type="xs:boolean" />
+          <xs:element minOccurs="0" name="revenueCenterName" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="hsSimpleDate">
+        <xs:sequence>
+          <xs:element name="day" type="xs:int" />
+          <xs:element name="month" type="xs:int" />
+          <xs:element name="year" type="xs:int" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="wsSalesItem3">
+        <xs:complexContent mixed="false">
+          <xs:extension base="tns:dataSalesItem">
+            <xs:sequence>
+              <xs:element minOccurs="0" name="businessDate" type="tns:hsSimpleDate" />
+              <xs:element minOccurs="0" name="transDate" type="tns:hsSimpleDate" />
+              <xs:element minOccurs="0" name="transTime" type="tns:hsSimpleTime" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="dataSalesItem" abstract="true">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="catName" type="xs:string" />
+          <xs:element name="clientId" type="xs:int" />
+          <xs:element name="empId" type="xs:int" />
+          <xs:element name="extId" type="xs:int" />
+          <xs:element name="rvc" type="xs:int" />
+          <xs:element minOccurs="0" name="rvcName" type="xs:string" />
+          <xs:element name="salesCat" type="xs:int" />
+          <xs:element name="storeNum" type="xs:int" />
+          <xs:element name="ttl" type="xs:float" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="hsSimpleTime">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="amPm" type="xs:string" />
+          <xs:element name="hours" type="xs:int" />
+          <xs:element name="militaryTime" type="xs:boolean" />
+          <xs:element name="minutes" type="xs:int" />
+          <xs:element name="seconds" type="xs:int" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="wsSalesItem">
+        <xs:complexContent mixed="false">
+          <xs:extension base="tns:dataSalesItem">
+            <xs:sequence>
+              <xs:element minOccurs="0" name="businessDate" type="xs:dateTime" />
+              <xs:element minOccurs="0" name="dateTime" type="xs:dateTime" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="wsReturn">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="errors" nillable="true" type="xs:string" />
+          <xs:element name="failCount" type="xs:int" />
+          <xs:element name="success" type="xs:boolean" />
+          <xs:element name="successCount" type="xs:int" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="wsSalesCategory">
+        <xs:sequence>
+          <xs:element name="extId" type="xs:int" />
+          <xs:element name="groupLevel" type="xs:boolean" />
+          <xs:element minOccurs="0" name="salesCategoryName" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="wsRevenueCenterArray" final="#all">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:wsRevenueCenter" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="wsSalesItem3Array" final="#all">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:wsSalesItem3" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="wsSalesItemArray" final="#all">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:wsSalesItem" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="wsSalesCategoryArray" final="#all">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:wsSalesCategory" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="Exception" type="tns:Exception" />
+      <xs:complexType name="Exception">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="message" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="setSalesItems">
+    <wsdl:part name="concept" type="xsd:int" />
+    <wsdl:part name="storeNum" type="xsd:int" />
+    <wsdl:part name="sales" type="tns:wsSalesItemArray" />
+    <wsdl:part name="start" type="xsd:dateTime" />
+    <wsdl:part name="end" type="xsd:dateTime" />
+  </wsdl:message>
+  <wsdl:message name="getSalesCatsResponse">
+    <wsdl:part name="return" type="tns:wsSalesCategoryArray" />
+  </wsdl:message>
+  <wsdl:message name="sayHelloResponse">
+    <wsdl:part name="return" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="setSalesItemsV3Response">
+    <wsdl:part name="return" type="tns:wsReturn" />
+  </wsdl:message>
+  <wsdl:message name="setSalesItemsV3">
+    <wsdl:part name="concept" type="xsd:int" />
+    <wsdl:part name="storeNum" type="xsd:int" />
+    <wsdl:part name="sales" type="tns:wsSalesItem3Array" />
+    <wsdl:part name="start" type="tns:hsSimpleDate" />
+    <wsdl:part name="end" type="tns:hsSimpleDate" />
+  </wsdl:message>
+  <wsdl:message name="setSalesItemsResponse">
+    <wsdl:part name="return" type="tns:wsReturn" />
+  </wsdl:message>
+  <wsdl:message name="getSalesItemsV3">
+    <wsdl:part name="concept" type="xsd:int" />
+    <wsdl:part name="storeNum" type="xsd:int" />
+    <wsdl:part name="start" type="tns:hsSimpleDate" />
+    <wsdl:part name="end" type="tns:hsSimpleDate" />
+  </wsdl:message>
+  <wsdl:message name="getSalesItemsV3Response">
+    <wsdl:part name="return" type="tns:wsSalesItem3Array" />
+  </wsdl:message>
+  <wsdl:message name="getSalesCats">
+    <wsdl:part name="concept" type="xsd:int" />
+    <wsdl:part name="storeNum" type="xsd:int" />
+  </wsdl:message>
+  <wsdl:message name="getRVCsResponse">
+    <wsdl:part name="return" type="tns:wsRevenueCenterArray" />
+  </wsdl:message>
+  <wsdl:message name="sayHello" />
+  <wsdl:message name="getRVCs">
+    <wsdl:part name="concept" type="xsd:int" />
+    <wsdl:part name="storeNum" type="xsd:int" />
+  </wsdl:message>
+  <wsdl:message name="Exception">
+    <wsdl:part name="Exception" element="tns:Exception" />
+  </wsdl:message>
+  <wsdl:portType name="SalesService">
+    <wsdl:operation name="getRVCs">
+      <wsdl:input name="getRVCs" message="tns:getRVCs" />
+      <wsdl:output name="getRVCsResponse" message="tns:getRVCsResponse" />
+      <wsdl:fault name="Exception" message="tns:Exception" />
+    </wsdl:operation>
+    <wsdl:operation name="sayHello">
+      <wsdl:input name="sayHello" message="tns:sayHello" />
+      <wsdl:output name="sayHelloResponse" message="tns:sayHelloResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getSalesItemsV3">
+      <wsdl:input name="getSalesItemsV3" message="tns:getSalesItemsV3" />
+      <wsdl:output name="getSalesItemsV3Response" message="tns:getSalesItemsV3Response" />
+      <wsdl:fault name="Exception" message="tns:Exception" />
+    </wsdl:operation>
+    <wsdl:operation name="setSalesItems">
+      <wsdl:input name="setSalesItems" message="tns:setSalesItems" />
+      <wsdl:output name="setSalesItemsResponse" message="tns:setSalesItemsResponse" />
+      <wsdl:fault name="Exception" message="tns:Exception" />
+    </wsdl:operation>
+    <wsdl:operation name="setSalesItemsV3">
+      <wsdl:input name="setSalesItemsV3" message="tns:setSalesItemsV3" />
+      <wsdl:output name="setSalesItemsV3Response" message="tns:setSalesItemsV3Response" />
+      <wsdl:fault name="Exception" message="tns:Exception" />
+    </wsdl:operation>
+    <wsdl:operation name="getSalesCats">
+      <wsdl:input name="getSalesCats" message="tns:getSalesCats" />
+      <wsdl:output name="getSalesCatsResponse" message="tns:getSalesCatsResponse" />
+      <wsdl:fault name="Exception" message="tns:Exception" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="SalesItemServiceServiceSoapBinding" type="tns:SalesService">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="rpc" />
+    <wsdl:operation name="getRVCs">
+      <soap:operation soapAction="" style="rpc" />
+      <wsdl:input name="getRVCs">
+        <soap:body use="literal" namespace="http://services.hotschedules.com/api/services/SalesService" />
+      </wsdl:input>
+      <wsdl:output name="getRVCsResponse">
+        <soap:body use="literal" namespace="http://services.hotschedules.com/api/services/SalesService" />
+      </wsdl:output>
+      <wsdl:fault name="Exception">
+        <soap:fault use="literal" name="Exception" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getSalesItemsV3">
+      <soap:operation soapAction="" style="rpc" />
+      <wsdl:input name="getSalesItemsV3">
+        <soap:body use="literal" namespace="http://services.hotschedules.com/api/services/SalesService" />
+      </wsdl:input>
+      <wsdl:output name="getSalesItemsV3Response">
+        <soap:body use="literal" namespace="http://services.hotschedules.com/api/services/SalesService" />
+      </wsdl:output>
+      <wsdl:fault name="Exception">
+        <soap:fault use="literal" name="Exception" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="sayHello">
+      <soap:operation soapAction="" style="rpc" />
+      <wsdl:input name="sayHello">
+        <soap:body use="literal" namespace="http://services.hotschedules.com/api/services/SalesService" />
+      </wsdl:input>
+      <wsdl:output name="sayHelloResponse">
+        <soap:body use="literal" namespace="http://services.hotschedules.com/api/services/SalesService" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="setSalesItems">
+      <soap:operation soapAction="" style="rpc" />
+      <wsdl:input name="setSalesItems">
+        <soap:body use="literal" namespace="http://services.hotschedules.com/api/services/SalesService" />
+      </wsdl:input>
+      <wsdl:output name="setSalesItemsResponse">
+        <soap:body use="literal" namespace="http://services.hotschedules.com/api/services/SalesService" />
+      </wsdl:output>
+      <wsdl:fault name="Exception">
+        <soap:fault use="literal" name="Exception" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="setSalesItemsV3">
+      <soap:operation soapAction="" style="rpc" />
+      <wsdl:input name="setSalesItemsV3">
+        <soap:body use="literal" namespace="http://services.hotschedules.com/api/services/SalesService" />
+      </wsdl:input>
+      <wsdl:output name="setSalesItemsV3Response">
+        <soap:body use="literal" namespace="http://services.hotschedules.com/api/services/SalesService" />
+      </wsdl:output>
+      <wsdl:fault name="Exception">
+        <soap:fault use="literal" name="Exception" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getSalesCats">
+      <soap:operation soapAction="" style="rpc" />
+      <wsdl:input name="getSalesCats">
+        <soap:body use="literal" namespace="http://services.hotschedules.com/api/services/SalesService" />
+      </wsdl:input>
+      <wsdl:output name="getSalesCatsResponse">
+        <soap:body use="literal" namespace="http://services.hotschedules.com/api/services/SalesService" />
+      </wsdl:output>
+      <wsdl:fault name="Exception">
+        <soap:fault use="literal" name="Exception" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="SalesItemServiceService">
+    <wsdl:port name="SalesService" binding="tns:SalesItemServiceServiceSoapBinding">
+      <soap:address location="http://services.hotschedules.com/api/services/SalesService" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
